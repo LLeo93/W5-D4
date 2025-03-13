@@ -1,0 +1,89 @@
+// lo scopo di oggi è crearci una versione "personalizzata" di bootstrap,
+// leggendo i partials originali e applicandoci sopra le modifiche volute
+
+// creando come risultato un "custom-bootstrap.css" che importerò nei miei documenti
+// HTML
+
+// cominciamo provando a sovrascrivere i colori originali
+// sono definiti in "_variables.scss"
+
+// per importare con successo variables, abbiamo PRIMA bisogno di importare functions
+@import './scss/functions';
+@import './scss/variables';
+// ora abbiamo accesso a theme-colors, spacers etc.
+
+$new-primary: #ff00d6; // il mio nuovo primary
+$new-secondary: #192155;
+$gigio: #8b0f2a;
+$carlo: #7a5050;
+$new-danger: #ff0077;
+$new-info: #00ffea;
+$new-light: #f3eeff;
+
+$new-theme-colors: (
+  'primary': $new-primary,
+  'secondary': $new-secondary,
+  'gigio': $gigio,
+  'carlo': $carlo,
+  'danger': $new-danger,
+  'info': $new-info,
+  'light': $new-light,
+);
+
+// ho creato la mia mappa colori custom. Ora il prossimo passo è
+// andare a FONDERLA con la mappa dei colori originali di bootstrap!
+$theme-colors: map-merge($theme-colors, $new-theme-colors);
+
+// sono riuscito con successo a creare la MIA mappa colori di bootstrap,
+// partendo dall'originale e sovrascrivendo/aggiungendo le mie modifiche!
+
+// ...ma ora dobbiamo usarla per creare TUTTO: i colori dei testi, dei background,
+// dei bottoni, degli alert, dei toast etc.
+
+// cambiamo gli spacers di default
+$new-spacers: (
+  6: $spacer * 6,
+);
+$spacers: map-merge($spacers, $new-spacers);
+
+//importo i font-size nuovi
+$h7-font-size: $font-size-base * 0.75;
+$h8-font-size: $font-size-base * 0.5;
+$h9-font-size: $font-size-base * 0.3;
+$h10-font-size: $font-size-base * 0.25;
+
+$new-font-sizes: (
+  7: $h7-font-size,
+  8: $h8-font-size,
+  9: $h9-font-size,
+  10: $h10-font-size,
+);
+
+$font-sizes: map-merge($font-sizes, $new-font-sizes);
+
+$new-border-widths: (
+  6: 6px,
+  7: 7px,
+  8: 8px,
+  9: 9px,
+  10: 10px,
+);
+$border-widths: map-merge($border-widths, $new-border-widths);
+@import './scss/mixins';
+$btn-padding-y: 2.5rem;
+$padding-x: 0.75rem;
+
+$grid-gutter-width: 0.5rem;
+
+$red: #ff0077;
+
+$border-radius: 50px;
+
+@import './scss/bootstrap.scss';
+
+// ...ma andando a re-importare nuovamente TUTTO, non sono andato a ri-sovrascrivere
+// la mia bella mappa theme-colors con nuovamente i colori originali???
+// ho perso tutte le mie modifiche re-importando i partials di bootstrap??
+// no... perchè tutte le mappe originali hanno un flag "!default"
+// il flag "!default" significa: io creo questa variabile A MENO CHE non sia
+// già stata definita precedentemente.
